@@ -140,7 +140,7 @@ interface GigabitEthernet2/2
 interface GigabitEthernet2/3
  negotiation auto
 !
-interface Vlan710
+interface Vlan720
  ip address 10.150.72.61 255.255.255.0
 !
 ip default-gateway 10.150.72.1
