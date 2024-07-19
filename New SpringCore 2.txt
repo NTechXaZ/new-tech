@@ -1,0 +1,448 @@
+New SpringCore 2
+
+Building configuration...
+
+Current configuration : 9605 bytes
+!
+! Last configuration change at 19:11:20 UTC Fri Nov 3 2023
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname SpringCore2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$O8IP$NSsvuDQlbmBT9dfcml75c
+!
+no aaa new-model
+!
+!
+!
+!         
+!
+vtp mode transparent
+!
+!
+!
+no ip domain-lookup
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+spanning-tree vlan 105,115,125,135,145,155,200,205,210,215,220 priority 28672
+spanning-tree vlan 305,310,315,320,325,720,990 priority 24576
+!
+!
+vlan 105
+ name PharmaPlus 
+!
+vlan 115
+ name DynaLabs
+!
+vlan 125  
+ name Reception
+!
+vlan 135
+ name Security
+!
+vlan 145
+ name Facilities
+!
+vlan 155
+ name Visitor1
+!
+vlan 200
+ name Physicians
+!
+vlan 205
+ name ChildrensHealth
+!
+vlan 210
+ name CoolidgeLab
+!
+vlan 215
+ name MassageSpa
+!         
+vlan 220
+ name Visitor2
+!
+vlan 305
+ name Allergist
+!
+vlan 310
+ name Physiotherapy
+!
+vlan 315
+ name DentalOffice
+!
+vlan 320
+ name ENT
+!
+vlan 325
+ name Visitor3
+!
+vlan 720
+ name IT
+!
+vlan 990
+ name DataCenter 
+!
+vlan 999
+ name Native
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel2
+ description EtherChannel2 DataCenter
+ switchport trunk allowed vlan 720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface GigabitEthernet0/0
+ description Trunk link to Floor1
+ switchport trunk allowed vlan 105,115,125,135,145,155,720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ description Trunk link to Floor2
+ switchport trunk allowed vlan 200,205,210,215,220,720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ description Trunk link to Floor3
+ switchport trunk allowed vlan 305,310,315,320,325,720,990,999
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ negotiation auto
+ channel-group 2 mode desirable
+!
+interface GigabitEthernet1/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ negotiation auto
+ channel-group 2 mode desirable
+!
+interface GigabitEthernet1/1
+ description SprintCore2 to SpringCore1
+ no switchport
+ ip address 10.150.127.22 255.255.255.252
+ negotiation auto
+ ipv6 address 2001:BBFC:88EF:FFFA::2/64
+!
+interface GigabitEthernet1/2
+description SpringCore2 to SpringR1
+ no switchport
+ ip address 10.150.127.10 255.255.255.252
+ negotiation auto
+ ipv6 address 2001:BBFC:88EF:FFFA::1/64
+!
+interface GigabitEthernet1/3
+description SpringCore2 to SpringR2
+ no switchport
+ ip address 10.150.127.18 255.255.255.252
+ negotiation auto
+ ipv6 address 2001:BBFC:88EF:FFFD::1/64
+!
+interface Vlan105
+ description PharmaPlus
+ ip address 10.150.8.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.8.1
+ ipv6 address 2001:BBFC:88EF:8::3/64
+!
+interface Vlan115
+ description DynaLabs
+ ip address 10.150.12.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.12.1
+ ipv6 address 2001:BBFC:88EF:12::3/64
+!
+interface Vlan125
+ description Reception
+ ip address 10.150.16.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.16.1
+ ipv6 address 2001:BBFC:88EF:16::3/64
+!
+interface Vlan135
+ description Security
+ ip address 10.150.20.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.20.1
+ ipv6 address 2001:BBFC:88EF:20::3/64
+!
+interface Vlan145
+ description Facilities
+ ip address 10.150.24.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.24.1
+ ipv6 address 2001:BBFC:88EF:24::3/64
+!
+interface Vlan155
+ description Visitor1
+ ip address 10.150.28.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.28.1
+ ipv6 address 2001:BBFC:88EF:28::3/64
+!
+interface Vlan200
+ description Physicians
+ ip address 10.150.44.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.44.1
+ ipv6 address 2001:BBFC:88EF:44::3/64
+!         
+interface Vlan205
+ description Childrens Health
+ ip address 10.150.48.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.48.1
+ ipv6 address 2001:BBFC:88EF:48::3/64
+!
+interface Vlan210
+ description CoolidgeLab
+ ip address 10.150.52.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.52.1
+ ipv6 address 2001:BBFC:88EF:52::3/64
+!
+interface Vlan215
+ description MassageSpa
+ ip address 10.150.56.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.56.1
+ ipv6 address 2001:BBFC:88EF:56::3/64
+!
+interface Vlan220
+ description Visitor2
+ ip address 10.150.60.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 ip 10.150.60.1
+ ipv6 address 2001:BBFC:88EF:60::3/64
+!
+interface Vlan305
+ description Allergist
+ ip address 10.150.80.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 priority 150
+ standby 999 preempt
+ standby 999 ip 10.150.80.1
+ ipv6 address 2001:BBFC:88EF:80::3/64
+!
+interface Vlan310
+ description Physiotherapy
+ ip address 10.150.84.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 priority 150
+ standby 999 preempt
+ standby 999 ip 10.150.84.1
+ ipv6 address 2001:BBFC:88EF:84::3/64
+!
+interface Vlan315
+ description DentalOffice
+ ip address 10.150.88.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 priority 150
+ standby 999 preempt
+ standby 999 ip 10.150.88.1
+ ipv6 address 2001:BBFC:88EF:88::3/64
+!
+interface Vlan320
+ description ENT
+ ip address 10.150.92.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 priority 150
+ standby 999 preempt
+ standby 999 ip 10.150.92.1
+ ipv6 address 2001:BBFC:88EF:92::3/64
+!
+interface Vlan325
+ description Visitor3
+ ip address 10.150.96.3 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 priority 150
+ standby 999 preempt
+ standby 999 ip 10.150.96.1
+ ipv6 address 2001:BBFC:88EF:96::3/64
+!
+interface Vlan720
+ description IT
+ ip address 10.150.72.100 255.255.255.0
+ ip helper-address 10.150.0.12 
+ ip helper-address 10.150.0.13 
+ standby version 2
+ standby 999 priority 150
+ standby 999 preempt
+ standby 999 ip 10.150.72.1
+ ipv6 address 2001:BBFC:88EF:10::31/64
+!
+interface Vlan990
+ description DataCenter
+ ip address 10.150.0.100 255.255.255.0
+ standby version 2
+ standby 999 priority 150
+ standby 999 preempt
+ standby 999 ip 10.150.0.1
+ ipv6 address 2001:BBFC:88EF:11::31/64
+!
+router ospf 22
+ router-id 2.2.2.2
+ passive-interface default
+ no passive-interface GigabitEthernet1/1
+ no passive-interface GigabitEthernet1/2
+ no passive-interface GigabitEthernet1/3
+ network 10.150.8.0 0.0.0.255 area 0
+ network 10.150.12.0 0.0.0.255 area 0
+ network 10.150.16.0 0.0.0.255 area 0
+ network 10.150.20.0 0.0.0.255 area 0
+ network 10.150.24.0 0.0.0.255 area 0
+ network 10.150.28.0 0.0.0.255 area 0
+ network 10.150.44.0 0.0.0.255 area 0
+ network 10.150.48.0 0.0.0.255 area 0
+ network 10.150.52.0 0.0.0.255 area 0
+ network 10.150.56.0 0.0.0.255 area 0
+ network 10.150.60.0 0.0.0.255 area 0
+ network 10.150.80.0 0.0.0.255 area 0
+ network 10.150.84.0 0.0.0.255 area 0
+ network 10.150.88.0 0.0.0.255 area 0
+ network 10.150.92.0 0.0.0.255 area 0
+ network 10.150.96.0 0.0.0.255 area 0
+ network 10.150.72.0 0.0.0.255 area 0
+ network 10.150.0.0 0.0.0.255 area 0
+ network 10.150.127.4 0.0.0.3 area 0
+ network 10.150.127.12 0.0.0.3 area 0
+ network 10.150.127.20 0.0.0.3 area 0
+!
+ip forward-protocol nd
+!         
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.150.127.17
+ip route 0.0.0.0 0.0.0.0 10.150.127.9 10
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+logging source-interface GigabitEthernet1/3
+logging host 10.150.0.16
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+          
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner incoming ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C        
+banner login ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner motd ^CUnauthorized Access is prohibited^C
+!
+line con 0
+ password 7 0631062F48411E0A54
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password 7 073828424A060E1646
+ login
+ transport input telnet
+line vty 5 15
+ password 7 073828424A060E1646
+ login
+ transport input telnet
+!
+!
+end
+
+SpringCore2# 
